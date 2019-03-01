@@ -29,10 +29,11 @@ public class GladiatorTest {
     }
 
     @Test
-    public void cantHealGladiator() {
+    public void canHealGladiator() {
         gladiator.recoverHealth(-99);
         gladiator.heal();
         assertEquals(84, gladiator.getHealth());
+        assertEquals(2, gladiator.getHealingCap());
     }
 
     @Test
@@ -40,17 +41,27 @@ public class GladiatorTest {
         gladiator.recoverHealth(-10);
         gladiator.heal();
         assertEquals(100, gladiator.getHealth());
+        assertEquals(2, gladiator.getHealingCap());
     }
 
     @Test
     public void canDefendFromMonster() {
-        gladiator.defend(monster1);
+        gladiator.defend(monster1.attack());
         assertEquals(70, gladiator.getHealth());
     }
 
     @Test
     public void cantBeHealedByMonsterAttack() {
-        gladiator.defend(monster2);
+        gladiator.defend(monster2.attack());
         assertEquals(100, gladiator.getHealth());
+    }
+
+    @Test
+    public void canResetGladiator() {
+        gladiator.recoverHealth(-99);
+        gladiator.heal();
+        gladiator.resetStats();
+        assertEquals(100, gladiator.getHealth());
+        assertEquals(3, gladiator.getHealingCap());
     }
 }

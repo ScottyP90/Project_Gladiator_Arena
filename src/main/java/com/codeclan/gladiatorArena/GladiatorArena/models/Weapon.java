@@ -1,7 +1,11 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "Weapons")
 public class Weapon {
 
     private Long Id;

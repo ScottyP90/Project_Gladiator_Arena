@@ -1,7 +1,12 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "gladiators")
 public class Gladiator {
 
     private Long id;
@@ -24,7 +29,7 @@ public class Gladiator {
 
     private int healingCap;
 
-    private ArrayList<Match> matches;
+    private List<Match> matches;
 
     public Gladiator(String name, String title, String gender, Weapon weapon, int health, int strength, int defence) {
         this.name = name;
@@ -119,11 +124,11 @@ public class Gladiator {
         this.healingCap = healingCap;
     }
 
-    public ArrayList<Match> getMatches() {
+    public List<Match> getMatches() {
         return matches;
     }
 
-    public void setMatches(ArrayList<Match> matches) {
+    public void setMatches(List<Match> matches) {
         this.matches = matches;
     }
 
@@ -139,8 +144,13 @@ public class Gladiator {
         this.health += heal;
     }
 
-    public void defend(Monster monster){
-        int totalDamage = monster.getAttack() - (this.defence + this.weapon.getDefence());
+    public void resetStats(){
+        this.healingCap = 3;
+        this.health = this.healthCap;
+    }
+
+    public void defend(int damage){
+        int totalDamage = damage - (this.defence + this.weapon.getDefence());
         if(totalDamage < 0){
             totalDamage = 0;
         }
@@ -148,11 +158,15 @@ public class Gladiator {
     }
 
     public void heal(){
-        int totalHeal = (int) Math.round(this.healthCap / 1.2);
-        if((totalHeal + this.health)> this.healthCap){
-            this.recoverHealth(this.healthCap - this.health);
-        }else{
-            this.recoverHealth(totalHeal);
+        if(this.healingCap > 0){
+            int totalHeal = (int) Math.round(this.healthCap / 1.2);
+            if((totalHeal + this.health)> this.healthCap){
+                this.recoverHealth(this.healthCap - this.health);
+                this.healingCap -= 1;
+            }else{
+                this.recoverHealth(totalHeal);
+                this.healingCap -= 1;
+            }
         }
     }
 }

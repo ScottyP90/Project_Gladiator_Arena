@@ -41,4 +41,11 @@ public class MonsterTest {
         monster.takeDamage(gladiator1.attack());
         assertEquals(1000, monster.getHealth());
     }
+
+    @Test
+    public void canResetMonstersHealth() {
+        monster.takeDamage(gladiator2.attack());
+        monster.resetStats();
+        assertEquals(1000, monster.getHealth());
+    }
 }

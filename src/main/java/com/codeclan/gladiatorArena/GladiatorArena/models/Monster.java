@@ -1,7 +1,11 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "monsters")
 public class Monster {
 
     private Long id;
@@ -106,8 +110,8 @@ public class Monster {
         this.health -= battleDamage;
     }
 
-    public void recoverHealth(int heal){
-        this.health += heal;
+    public void resetStats(){
+        this.health = healthCap;
     }
 
 
