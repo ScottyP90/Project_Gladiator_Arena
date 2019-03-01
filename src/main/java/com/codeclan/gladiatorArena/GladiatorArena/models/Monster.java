@@ -20,11 +20,11 @@ public class Monster {
 
     private ArrayList<Match> matches;
 
-    public Monster(String monsterName, String title, int health, int healthCap, int attack, int defence) {
+    public Monster(String monsterName, String title, int health, int attack, int defence) {
         this.monsterName = monsterName;
         this.title = title;
         this.health = health;
-        this.healthCap = healthCap;
+        this.healthCap = health;
         this.attack = attack;
         this.defence = defence;
         this.matches = new ArrayList<Match>();
@@ -93,4 +93,22 @@ public class Monster {
     public void setMatches(ArrayList<Match> matches) {
         this.matches = matches;
     }
+
+    public int attack(){
+        return this.attack;
+    }
+
+    public void takeDamage(int damage){
+        int battleDamage = damage - this.defence;
+        if(battleDamage < 0){
+            battleDamage = 0;
+        }
+        this.health -= battleDamage;
+    }
+
+    public void recoverHealth(int heal){
+        this.health += heal;
+    }
+
+
 }

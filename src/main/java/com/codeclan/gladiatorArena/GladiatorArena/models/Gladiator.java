@@ -32,7 +32,7 @@ public class Gladiator {
         this.gender = gender;
         this.weapon = weapon;
         this.health = health;
-        this.healthCap = health + 20;
+        this.healthCap = health;
         this.strength = strength;
         this.defence = defence;
         this.healingCap = 3;
