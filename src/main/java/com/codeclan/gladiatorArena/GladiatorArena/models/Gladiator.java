@@ -1,7 +1,8 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,26 +10,41 @@ import java.util.List;
 @Table(name = "gladiators")
 public class Gladiator {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "title")
     private String title;
 
+    @Column(name = "gender")
     private String gender;
 
+    @JsonIgnoreProperties("gladiators")
+    @ManyToOne
+    @JoinColumn(name = "weapon_id", nullable = false)
     private Weapon weapon;
 
+    @Column(name = "health")
     private int health;
 
+    @Column(name = "health_cap")
     private int healthCap;
 
+    @Column(name = "strength")
     private int strength;
 
+    @Column(name = "defence")
     private int defence;
 
+    @Column(name = "healing_cap")
     private int healingCap;
 
+    @JsonIgnoreProperties("monsters")
+    @OneToMany(mappedBy = "gladiator", fetch = FetchType.LAZY)
     private List<Match> matches;
 
     public Gladiator(String name, String title, String gender, Weapon weapon, int health, int strength, int defence) {
@@ -42,6 +58,9 @@ public class Gladiator {
         this.defence = defence;
         this.healingCap = 3;
         this.matches = new ArrayList<Match>();
+    }
+
+    public Gladiator() {
     }
 
     public Long getId() {

@@ -1,26 +1,39 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.Random;
 
 @Entity
 @Table(name = "matches")
 public class Match {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @JsonIgnoreProperties("matches")
+    @ManyToOne
+    @JoinColumn(name = "gladiator_id", nullable = false)
     private Gladiator gladiator;
 
+    @JsonIgnoreProperties("matches")
+    @ManyToOne
+    @JoinColumn(name = "monster_id", nullable = false)
     private Monster monster;
 
     public Match(String name, Gladiator gladiator, Monster monster) {
         this.name = name;
         this.gladiator = gladiator;
         this.monster = monster;
+    }
+
+    public Match() {
     }
 
     public Long getId() {
@@ -71,11 +84,11 @@ public class Match {
 
     public void combatantsBattle(Gladiator gladiator, Monster monster){
 
-        Random rand = new Random();
+        Random diceRoll = new Random();
 
-        int gladiatorNumber = rand.nextInt((20 - 1) + 1);
+        int gladiatorNumber = diceRoll.nextInt((20 - 1) + 1);
 
-        int monsterNumber = rand.nextInt((20 - 1) + 1);
+        int monsterNumber = diceRoll.nextInt((20 - 1) + 1);
 
         if (gladiatorNumber >= 19){
             monster.takeDamage((int)Math.round(gladiator.attack() * 1.2));
@@ -89,7 +102,7 @@ public class Match {
             gladiator.defend((int)Math.round(monster.attack() * 1.2));
         }
 
-        if (monsterNumber >= 4){
+        if (monsterNumber >= 3){
             gladiator.defend(monster.attack());
         }
 
@@ -97,7 +110,9 @@ public class Match {
 
     public void gladiatorHeals(Gladiator gladiator, Monster monster){
 
-        int monsterNumber = (int)Math.random()*((20 - 1));
+        Random diceRoll = new Random();
+
+        int monsterNumber = diceRoll.nextInt((20 - 1) + 1);
 
         gladiator.heal();
 

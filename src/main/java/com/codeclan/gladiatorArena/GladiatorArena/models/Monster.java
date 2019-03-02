@@ -1,28 +1,40 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "monsters")
 public class Monster {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "monster_name")
     private String monsterName;
 
+    @Column(name = "title")
     private String title;
 
+    @Column(name = "health")
     private int health;
 
+    @Column(name = "health_cap")
     private int healthCap;
 
+    @Column(name = "attack")
     private int attack;
 
+    @Column(name = "defence")
     private int defence;
 
-    private ArrayList<Match> matches;
+    @JsonIgnoreProperties("gladiator")
+    @OneToMany(mappedBy = "monster", fetch = FetchType.LAZY)
+    private List<Match> matches;
 
     public Monster(String monsterName, String title, int health, int attack, int defence) {
         this.monsterName = monsterName;
@@ -32,6 +44,9 @@ public class Monster {
         this.attack = attack;
         this.defence = defence;
         this.matches = new ArrayList<Match>();
+    }
+
+    public Monster() {
     }
 
     public Long getId() {
@@ -90,11 +105,11 @@ public class Monster {
         this.defence = defence;
     }
 
-    public ArrayList<Match> getMatches() {
+    public List<Match> getMatches() {
         return matches;
     }
 
-    public void setMatches(ArrayList<Match> matches) {
+    public void setMatches(List<Match> matches) {
         this.matches = matches;
     }
 

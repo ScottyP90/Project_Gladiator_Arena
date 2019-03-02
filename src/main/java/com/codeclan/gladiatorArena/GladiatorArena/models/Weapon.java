@@ -1,24 +1,34 @@
 package com.codeclan.gladiatorArena.GladiatorArena.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "Weapons")
+@Table(name = "weapons")
 public class Weapon {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @Column(name = "weapon_name")
     private String weaponName;
 
+    @Column(name = "type")
     private String type;
 
+    @Column(name = "attack")
     private int attack;
 
+    @Column(name = "defence")
     private int defence;
 
-    private ArrayList<Gladiator> gladiators;
+    @JsonIgnoreProperties("matches")
+    @OneToMany(mappedBy = "weapon", fetch = FetchType.LAZY)
+    private List<Gladiator> gladiators;
 
     public Weapon(String weaponName, String type, int attack, int defence) {
         this.weaponName = weaponName;
@@ -26,6 +36,9 @@ public class Weapon {
         this.attack = attack;
         this.defence = defence;
         this.gladiators = new ArrayList<Gladiator>();
+    }
+
+    public Weapon() {
     }
 
     public Long getId() {
@@ -68,11 +81,11 @@ public class Weapon {
         this.defence = defence;
     }
 
-    public ArrayList<Gladiator> getGladiators() {
+    public List<Gladiator> getGladiators() {
         return gladiators;
     }
 
-    public void setGladiators(ArrayList<Gladiator> gladiators) {
+    public void setGladiators(List<Gladiator> gladiators) {
         this.gladiators = gladiators;
     }
 }
