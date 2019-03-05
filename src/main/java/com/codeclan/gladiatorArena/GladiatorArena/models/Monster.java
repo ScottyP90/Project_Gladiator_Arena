@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Entity
 @Table(name = "monsters")
@@ -12,7 +13,7 @@ public class Monster {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
     @Column(name = "monster_name")
     private String monsterName;
@@ -50,11 +51,11 @@ public class Monster {
     }
 
     public Long getId() {
-        return id;
+        return Id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        Id = id;
     }
 
     public String getMonsterName() {
@@ -129,5 +130,18 @@ public class Monster {
         this.health = healthCap;
     }
 
+    public void monsterBattles(Gladiator gladiator){
 
+        Random diceRoll = new Random();
+
+        int gladiatorNumber = diceRoll.nextInt((20 - 1) + 1);
+
+        if (gladiatorNumber >= 19){
+            this.takeDamage((int)Math.round(gladiator.attack() * 1.2));
+        }
+
+        if (gladiatorNumber >= 3){
+            this.takeDamage(gladiator.attack());
+        }
+    }
 }

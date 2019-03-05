@@ -17,12 +17,12 @@ public class Match {
     @Column(name = "name")
     private String name;
 
-    @JsonIgnoreProperties("matches")
+
     @ManyToOne
     @JoinColumn(name = "gladiator_id", nullable = false)
     private Gladiator gladiator;
 
-    @JsonIgnoreProperties("matches")
+
     @ManyToOne
     @JoinColumn(name = "monster_id", nullable = false)
     private Monster monster;
@@ -84,27 +84,9 @@ public class Match {
 
     public void combatantsBattle(Gladiator gladiator, Monster monster){
 
-        Random diceRoll = new Random();
+        gladiator.gladiatorBattle(monster);
 
-        int gladiatorNumber = diceRoll.nextInt((20 - 1) + 1);
-
-        int monsterNumber = diceRoll.nextInt((20 - 1) + 1);
-
-        if (gladiatorNumber >= 19){
-            monster.takeDamage((int)Math.round(gladiator.attack() * 1.2));
-        }
-
-        if (gladiatorNumber >= 3){
-            monster.takeDamage(gladiator.attack());
-        }
-
-        if (monsterNumber >= 19){
-            gladiator.defend((int)Math.round(monster.attack() * 1.2));
-        }
-
-        if (monsterNumber >= 3){
-            gladiator.defend(monster.attack());
-        }
+        monster.monsterBattles(gladiator);
 
     }
 
@@ -124,6 +106,14 @@ public class Match {
             gladiator.takeDamage(monster.attack());
         }
 
+
+    }
+
+    public void restoreStats(Gladiator gladiator, Monster monster){
+
+        gladiator.resetStats();
+
+        monster.resetStats();
 
     }
 }

@@ -84,7 +84,7 @@ public class DataLoader implements ApplicationRunner {
         Match round1 = new Match("Showdown at Ragnarok", thor, jormungandr);
         matchRepository.save(round1);
 
-        Match round2 = new Match("Battle a the Gates of Hades", heracles, cerberus);
+        Match round2 = new Match("Battle at the Gates of Hades", heracles, cerberus);
         matchRepository.save(round2);
 
         Match round3 = new Match("Fight at the Temen-ni-gru", dante, cerberus);
